@@ -1,0 +1,42 @@
+{% extends "scanner/base.html" %}
+{% block title %}QR lOGS{% endblock %}
+{% block content %}
+  <h2 class="mb-4">Check In / Out Logs</h2>
+
+  <form method="get" class="row g-2 mb-4">
+    <div class="col-md-4">
+      <input type="date" name="start" value="{{ start }}" class="form-control" required>
+    </div>
+    <div class="col-md-4">
+      <input type="date" name="end" value="{{ end }}" class="form-control" required>
+    </div>
+    <div class="col-md-4 d-flex">
+      <button class="btn btn-primary me-2">Filter</button>
+      {% comment %} <a href="{% url 'export_logs' %}" class="btn btn-success me-2">Export CSV</a> {% endcomment %}
+      <a href="{% url 'export_logs_pdf' %}" class="btn btn-danger">Export PDF</a>
+    </div>
+  </form>
+
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Direction</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in logs %}
+      <tr>
+        <td>{{ log.user.get_full_name|default:log.user.username }}</td>
+        <td>{{ log.direction|upper }}</td>
+        <td>{{ log.timestamp }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="3">No logs found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  </div>
+{% endblock %}

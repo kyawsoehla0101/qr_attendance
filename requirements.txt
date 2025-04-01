@@ -1,0 +1,4 @@
+# requirements.txt
+django>=4.2
+qrcode
+pillow
