@@ -1,15 +1,21 @@
 {% extends "scanner/base.html" %}
-{% block title %}QR lOGS{% endblock %}
+{% block title %}QR LOGS{% endblock %}
 {% block content %}
   <h2 class="mb-4">Check In / Out Logs</h2>
 
   <form method="get" class="row g-2 mb-4">
     <div class="col-md-4">
-      <input type="date" name="start" value="{{ start }}" class="form-control" required>
+      <input type="date" name="start" value="{{ start }}" class="form-control" >
     </div>
     <div class="col-md-4">
-      <input type="date" name="end" value="{{ end }}" class="form-control" required>
+      <input type="date" name="end" value="{{ end }}" class="form-control" >
     </div>
+    <label for="direction">Filter by Direction:</label>
+    <select name="direction" id="direction" class="form-control" >
+        <option value="">All</option>
+        <option value="in" {% if direction == "in" %}selected{% endif %}>Check-in</option>
+        <option value="out" {% if direction == "out" %}selected{% endif %}>Check-out</option>
+    </select>
     <div class="col-md-4 d-flex">
       <button class="btn btn-primary me-2">Filter</button>
       {% comment %} <a href="{% url 'export_logs' %}" class="btn btn-success me-2">Export CSV</a> {% endcomment %}
@@ -20,7 +26,7 @@
   <table class="table table-bordered table-striped">
     <thead>
       <tr>
-        <th>User</th>
+        <th>Name</th>
         <th>Direction</th>
         <th>Timestamp</th>
       </tr>

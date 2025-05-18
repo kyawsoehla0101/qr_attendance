@@ -119,12 +119,12 @@ def export_logs_pdf(request):
 
 @login_required
 def qr_logs_view(request):
-    logs = QRLog.objects.select_related('user').all()
-
+    logs = QRLog.objects.select_related('user').all().order_by('-timestamp')
+    direction = request.GET.get('direction')
     start_date = request.GET.get('start')
     end_date = request.GET.get('end')
-    if start_date and end_date:
-        logs = logs.filter(timestamp__date__range=(start_date, end_date))
+    if start_date and end_date and direction:
+        logs = logs.filter(timestamp__date__range=(start_date, end_date), direction=direction)
 
     return render(request, "scanner/logs.html", {
         "logs": logs,
